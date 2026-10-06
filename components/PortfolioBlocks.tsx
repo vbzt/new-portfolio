@@ -17,7 +17,7 @@ export function SectionHeading({ id, index, title, intro, action, href }: { id: 
 }
 
 export function TechBadge({ name }: { name: string }) {
-  return <span className="tech-badge">{name}</span>;
+  return <span className="inline-flex min-h-[29px] items-center whitespace-nowrap rounded-[7px] border border-line bg-surface-inset px-[9px] py-[5px] text-[11px] font-semibold text-copy-secondary">{name}</span>;
 }
 
 export function HomeProjectRow({ project, locale }: { project: Project; locale: Locale }) {
@@ -43,11 +43,12 @@ export function HomeProjectRow({ project, locale }: { project: Project; locale: 
 
 function ProjectVisual({ project, locale }: { project: Project; locale: Locale }) {
   const isPt = locale === "pt";
+  const visualClass = "project-visual my-6 flex min-h-[270px] min-w-0 flex-col rounded-[16px] border border-line bg-surface-inset px-[30px] pt-[27px] pb-5 max-[900px]:mt-[22px] max-[900px]:mb-9 max-[540px]:min-h-[260px] max-[540px]:p-[22px]";
   if (!project.visual) return null;
 
   if (project.visual === "tracksafe") {
     return (
-      <figure className="project-visual project-visual--tracksafe" aria-label={isPt ? "Fluxo de dados críticos da API TrackSafe" : "TrackSafe API critical data flow"}>
+      <figure className={visualClass} aria-label={isPt ? "Fluxo de dados críticos da API TrackSafe" : "TrackSafe API critical data flow"}>
         <div className="visual-topline"><span>TrackSafe / API</span><span>01–03</span></div>
         <div className="tracksafe-map">
           <div className="tracksafe-map__system"><span>Supabase Auth</span><strong>TrackSafe API</strong><span>AbacatePay</span></div>
@@ -64,7 +65,7 @@ function ProjectVisual({ project, locale }: { project: Project; locale: Locale }
 
   if (project.visual === "nomuz") {
     return (
-      <figure className="project-visual project-visual--nomuz" aria-label={isPt ? "Estrutura documentada do Nomuz" : "Documented Nomuz structure"}>
+      <figure className={visualClass} aria-label={isPt ? "Estrutura documentada do Nomuz" : "Documented Nomuz structure"}>
         <div className="visual-topline"><span>nomuz / {isPt ? "estrutura" : "structure"}</span><span>02</span></div>
         <div className="visual-stack">
           <div className="visual-stack__row"><span>frontend/</span><strong>Next.js</strong></div>
@@ -77,7 +78,7 @@ function ProjectVisual({ project, locale }: { project: Project; locale: Locale }
   }
 
   return (
-    <figure className="project-visual project-visual--deepy" aria-label={isPt ? "Fluxo documentado de análise de imagens do DeepY" : "Documented DeepY image analysis flow"}>
+    <figure className={visualClass} aria-label={isPt ? "Fluxo documentado de análise de imagens do DeepY" : "Documented DeepY image analysis flow"}>
       <div className="visual-topline"><span>DeepY / {isPt ? "análise de imagem" : "image analysis"}</span><span>03</span></div>
       <div className="visual-deepy-flow">
         <span>{isPt ? "imagem" : "image"}</span><ArrowRight /><span>FastAPI + Gemini</span><ArrowRight /><span>{isPt ? "conteúdo de estudo" : "study material"}</span>
@@ -87,19 +88,21 @@ function ProjectVisual({ project, locale }: { project: Project; locale: Locale }
   );
 }
 
-export function ProjectCard({ project, locale }: { project: Project; locale: Locale }) {
+export function ProjectCard({ project, locale, variant }: { project: Project; locale: Locale; variant: "featured" | "archive" }) {
   const t = copy[locale].contact;
+  const featured = variant === "featured";
+  const linksClass = "flex flex-wrap gap-[18px] [&_a]:inline-flex [&_a]:min-h-11 [&_a]:items-center [&_a]:gap-2 [&_a]:border-b [&_a]:border-accent [&_a]:text-[13px] [&_a]:font-bold [&_a]:text-foreground [&_a:hover]:text-accent-hover";
   return (
-    <article className="project-card" id={`project-${project.slug}`}>
-      <div className="project-card__content">
-        <div className="project-card__top"><span className="eyebrow">{project.category[locale]}</span><span className="project-card__index">/{project.slug}</span></div>
-        <h3>{project.name}</h3>
-        {project.role && <p className="project-card__role">{project.role[locale]}</p>}
-        <p className="project-card__description">{project.description[locale]}</p>
-        {project.detail && <p className="project-card__detail">{project.detail[locale]}</p>}
-        <div className="project-card__bottom">
-          <div className="tech-list" aria-label={locale === "pt" ? "Tecnologias" : "Technologies"}>{project.tech.map((tech) => <TechBadge name={tech} key={tech} />)}</div>
-          <div className="project-card__links">
+    <article className={featured ? "grid min-w-0 scroll-mt-24 grid-cols-[minmax(0,1fr)_minmax(330px,0.86fr)] items-center gap-[clamp(24px,4vw,64px)] border-b border-line max-[900px]:grid-cols-1 max-[900px]:gap-0" : "block min-w-0 scroll-mt-24 border-b border-line"} id={`project-${project.slug}`}>
+      <div className={featured ? "flex min-w-0 flex-col py-[42px] max-[900px]:pb-0" : "grid min-w-0 grid-cols-[minmax(170px,0.55fr)_minmax(0,1fr)] gap-x-[42px] gap-y-3 py-7 max-[540px]:grid-cols-1"}>
+        <div className="col-span-full flex items-start justify-between gap-3"><span className="text-[11px] font-bold tracking-[0.09em] text-copy-muted">{project.category[locale]}</span><span className="font-[Consolas,monospace] text-[11px] tracking-[0.08em] text-copy-muted">/{project.slug}</span></div>
+        <h3 className={featured ? "mt-5 mb-[7px] text-[clamp(28px,2.7vw,38px)] leading-[1.1] font-[650] tracking-[-0.065em] max-[540px]:text-4xl" : "m-0 text-[clamp(28px,2.7vw,38px)] leading-[1.1] font-[650] tracking-[-0.065em] max-[540px]:text-4xl"}>{project.name}</h3>
+        {project.role && <p className={featured ? "mb-5 text-[13px] font-bold text-accent" : "col-start-1 m-0 text-[13px] font-bold text-accent"}>{project.role[locale]}</p>}
+        <p className={featured ? "m-0 max-w-[590px] text-base leading-[1.58] text-foreground max-[540px]:text-[15px]" : "col-start-2 m-0 max-w-[590px] text-sm leading-[1.58] text-foreground max-[540px]:col-start-1"}>{project.description[locale]}</p>
+        {project.detail && <p className={featured ? "mt-[10px] max-w-[590px] text-sm leading-[1.6] text-copy-secondary" : "col-start-2 mt-[10px] max-w-[590px] text-sm leading-[1.6] text-copy-secondary max-[540px]:col-start-1"}>{project.detail[locale]}</p>}
+        <div className={featured ? "pt-6" : "col-start-2 pt-1 max-[540px]:col-start-1"}>
+          <div className="flex flex-wrap gap-[7px]" aria-label={locale === "pt" ? "Tecnologias" : "Technologies"}>{project.tech.map((tech) => <TechBadge name={tech} key={tech} />)}</div>
+          <div className={`${featured ? "mt-[26px]" : "mt-3"} ${linksClass}`}>
             <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`${project.name}: ${t.repo}`}>{t.repo} <ArrowUpRight /></a>
             {project.deploy && <a href={project.deploy} target="_blank" rel="noopener noreferrer" aria-label={`${project.name}: ${t.live}`}>{t.live} <ArrowUpRight /></a>}
           </div>

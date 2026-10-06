@@ -54,7 +54,7 @@ export function HomeContent() {
               <span className="pt-[6px] font-[Consolas,monospace] text-xs text-accent">{capability.number}</span>
               <h3 className="m-0 text-[clamp(24px,2.5vw,33px)] leading-[1.16] tracking-[-0.055em]">{capability.title}</h3>
               <p className="m-0 max-w-[520px] text-[15px] leading-[1.6] text-copy-secondary max-[540px]:col-start-2">{capability.text}</p>
-              <div className="tech-list col-start-2 col-end-[-1] max-[540px]:col-end-3">{capability.tech.map((tech) => <TechBadge name={tech} key={tech} />)}</div>
+              <div className="col-start-2 col-end-[-1] flex flex-wrap gap-[7px] max-[540px]:col-end-3">{capability.tech.map((tech) => <TechBadge name={tech} key={tech} />)}</div>
             </article>
           ))}
         </div>
