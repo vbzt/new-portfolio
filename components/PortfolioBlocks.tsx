@@ -132,9 +132,9 @@ export function ContactPanel({ locale }: { locale: Locale }) {
 export function SiteFooter({ locale }: { locale: Locale }) {
   const t = copy[locale];
   return (
-    <footer className="site-footer shell">
-      <p>{t.footer}</p>
-      <nav aria-label={locale === "pt" ? "Links do rodapé" : "Footer links"}>
+    <footer className="shell flex min-h-[94px] flex-wrap items-center justify-between gap-[15px] border-t border-line-soft text-xs text-copy-muted max-[540px]:py-[26px]">
+      <p className="m-0">{t.footer}</p>
+      <nav className="flex gap-[22px] [&_a]:inline-flex [&_a]:min-h-11 [&_a]:items-center [&_a:hover]:text-foreground" aria-label={locale === "pt" ? "Links do rodapé" : "Footer links"}>
         <Link href="/">{t.nav.home}</Link>
         <Link href="/projects">{t.nav.projects}</Link>
         <a href={`mailto:${site.email}`}>{t.nav.contact}</a>
