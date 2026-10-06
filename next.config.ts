@@ -3,9 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
-      { source: "/", destination: "/pt", permanent: true },
-      { source: "/projects", destination: "/pt/projects", permanent: true },
-      { source: "/about", destination: "/pt/about", permanent: true },
+      { source: "/pt", destination: "/", permanent: true },
+      { source: "/en", destination: "/", permanent: true },
+      { source: "/pt/projects", destination: "/projects", permanent: true },
+      { source: "/en/projects", destination: "/projects", permanent: true },
+      { source: "/about", destination: "/#about", permanent: true },
+      { source: "/pt/about", destination: "/#about", permanent: true },
+      { source: "/en/about", destination: "/#about", permanent: true },
     ];
   },
 };

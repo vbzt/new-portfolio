@@ -1,29 +1,23 @@
 import type { Metadata } from "next";
-import { copy, site, type Locale } from "./portfolio";
+import { copy, site } from "./portfolio";
 
-type PageKind = "home" | "projects" | "about";
+type PageKind = "home" | "projects";
 
-export function pageMetadata(locale: Locale, kind: PageKind): Metadata {
+export function pageMetadata(kind: PageKind): Metadata {
   const path = kind === "home" ? "" : `/${kind}`;
-  const url = `${site.url}/${locale}${path}`;
-  const title = copy[locale].metadata[kind];
-  const description = copy[locale].metadata[`${kind}Description`];
+  const url = `${site.url}${path}`;
+  const title = copy.pt.metadata[kind];
+  const description = copy.pt.metadata[`${kind}Description`];
 
   return {
     title,
     description,
     alternates: {
       canonical: url,
-      languages: {
-        "pt-BR": `${site.url}/pt${path}`,
-        en: `${site.url}/en${path}`,
-        "x-default": `${site.url}/pt${path}`,
-      },
     },
     openGraph: {
       type: "website",
-      locale: locale === "pt" ? "pt_BR" : "en_US",
-      alternateLocale: locale === "pt" ? ["en_US"] : ["pt_BR"],
+      locale: "pt_BR",
       url,
       siteName: "Vitor Buzato",
       title,
