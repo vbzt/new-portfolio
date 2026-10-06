@@ -24,7 +24,7 @@ npm run build
 - `components/PortfolioBlocks.tsx`: componentes de projeto, seções, contato e rodapé.
 - `public/curriculo-vitor-buzato.pdf`: currículo em português servido em `/curriculo-vitor-buzato.pdf`; o cabeçalho abre o PDF e o contato permite baixá-lo.
 - `app/`: rotas `/` e `/projects`; `components/LanguageProvider.tsx` controla o idioma na interface.
-- `app/globals.css`: tokens de cor, tipografia, layout e estados responsivos.
+- `app/globals.css`: tokens do Tailwind v4, estilos globais e CSS dos diagramas. Layout e estados responsivos ficam nas classes utilitárias dos componentes.
 - `lib/metadata.ts`, `app/sitemap.ts` e `app/robots.ts`: metadados e descoberta.
 
 Os projetos usam `slug` para permitir futuras páginas individuais. Adicione links de deploy ou estudos de caso somente quando existirem; não há links provisórios. Os TODOs em `lib/portfolio.ts` indicam informações ainda pendentes de confirmação.

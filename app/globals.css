@@ -15,12 +15,8 @@
   --accent-hover: #ff6a74;
   --accent-soft: rgba(255, 77, 90, 0.1);
   --accent-border: #694146;
-  --accent-border-hover: #6a4348;
   --control-border: #6b6b72;
   --focus: #ff828c;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
   --shell: 1240px;
 }
 
@@ -39,7 +35,6 @@
   --color-accent-soft: var(--accent-soft);
   --color-accent-border: var(--accent-border);
   --color-control: var(--control-border);
-  --color-focus: var(--focus);
   --font-sans: var(--font-work-sans), "Segoe UI", Arial, sans-serif;
 }
 
