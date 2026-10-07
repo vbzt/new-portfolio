@@ -9,7 +9,7 @@ export function SectionHeading({ id, index, title, intro, action, href }: { id: 
       <div>
         <p className="m-0 inline-flex items-center gap-[10px] text-[11px] font-bold tracking-[0.14em] text-copy-muted"><span className="inline-block h-[2px] w-5 shrink-0 bg-accent" />{index}</p>
         <h2 className="mt-[17px] mb-2 text-[clamp(34px,3.65vw,52px)] leading-[1.12] font-[650] tracking-[-0.065em] max-[540px]:text-[38px]" id={id}>{title}</h2>
-        {intro && <p className="m-0 max-w-[610px] text-[15px] leading-[1.6] text-copy-secondary">{intro}</p>}
+        {intro && <p className="description">{intro}</p>}
       </div>
       {action && href && <Link className="inline-flex min-h-11 shrink-0 items-center gap-[6px] border-b border-accent text-[13px] font-[650] text-foreground hover:text-accent-hover" href={href}>{action}<ArrowUpRight /></Link>}
     </div>
@@ -24,14 +24,14 @@ export function HomeProjectRow({ project, locale }: { project: Project; locale: 
   const t = copy[locale].contact;
 
   return (
-    <article className="grid min-w-0 grid-cols-[minmax(190px,0.75fr)_minmax(0,1fr)] gap-x-[38px] gap-y-[22px] border-b border-line py-[25px] max-[540px]:grid-cols-1 max-[540px]:gap-[10px] max-[540px]:py-6" id={`project-${project.slug}`}>
+    <article className="editorial-row border-b border-line py-[25px] max-[540px]:py-6" id={`project-${project.slug}`}>
       <div>
         <span className="text-[11px] font-bold tracking-[0.07em] text-copy-muted">{project.category[locale]}</span>
         <h3 className="mt-[10px] text-[clamp(26px,2.7vw,37px)] leading-[1.1] font-[650] tracking-[-0.055em]">{project.name}</h3>
       </div>
       <div className="flex flex-col items-start">
         {project.role && <p className="mb-[9px] text-xs font-[650] text-accent-hover">{project.role[locale]}</p>}
-        <p className="m-0 max-w-[520px] text-sm leading-[1.6] text-copy-secondary">{project.description[locale]}</p>
+        <p className="description">{project.description[locale]}</p>
         <div className="flex flex-wrap gap-x-6 gap-y-[10px] pt-[10px] [&_a]:inline-flex [&_a]:min-h-10 [&_a]:items-center [&_a]:gap-[6px] [&_a]:border-b [&_a]:border-accent-border [&_a]:text-xs [&_a]:font-[650] [&_a:hover]:text-accent-hover [&_svg]:size-[15px]">
           <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`${project.name}: ${t.repo}`}>{t.repo} <ArrowUpRight /></a>
           {project.deploy && <a href={project.deploy} target="_blank" rel="noopener noreferrer" aria-label={`${project.name}: ${t.live}`}>{t.live} <ArrowUpRight /></a>}
@@ -48,7 +48,7 @@ function ProjectVisual({ project, locale }: { project: Project; locale: Locale }
 
   if (project.visual === "tracksafe") {
     return (
-      <figure className={visualClass} aria-label={isPt ? "Fluxo de dados críticos da API TrackSafe" : "TrackSafe API critical data flow"}>
+      <figure className={`${visualClass} tracksafe-visual`} aria-label={isPt ? "Fluxo de dados críticos da API TrackSafe" : "TrackSafe API critical data flow"}>
         <div className="visual-topline"><span>TrackSafe / API</span><span>01–03</span></div>
         <div className="tracksafe-map">
           <div className="tracksafe-map__system"><span>Supabase Auth</span><strong>TrackSafe API</strong><span>AbacatePay</span></div>
@@ -98,8 +98,8 @@ export function ProjectCard({ project, locale, variant }: { project: Project; lo
         <div className="col-span-full flex items-start justify-between gap-3"><span className="text-[11px] font-bold tracking-[0.09em] text-copy-muted">{project.category[locale]}</span><span className="font-[Consolas,monospace] text-[11px] tracking-[0.08em] text-copy-muted">/{project.slug}</span></div>
         <h3 className={featured ? "mt-5 mb-[7px] text-[clamp(28px,2.7vw,38px)] leading-[1.1] font-[650] tracking-[-0.065em] max-[540px]:text-4xl" : "m-0 text-[clamp(28px,2.7vw,38px)] leading-[1.1] font-[650] tracking-[-0.065em] max-[540px]:text-4xl"}>{project.name}</h3>
         {project.role && <p className={featured ? "mb-5 text-[13px] font-bold text-accent" : "col-start-1 m-0 text-[13px] font-bold text-accent"}>{project.role[locale]}</p>}
-        <p className={featured ? "m-0 max-w-[590px] text-base leading-[1.58] text-foreground max-[540px]:text-[15px]" : "col-start-2 m-0 max-w-[590px] text-sm leading-[1.58] text-foreground max-[540px]:col-start-1"}>{project.description[locale]}</p>
-        {project.detail && <p className={featured ? "mt-[10px] max-w-[590px] text-sm leading-[1.6] text-copy-secondary" : "col-start-2 mt-[10px] max-w-[590px] text-sm leading-[1.6] text-copy-secondary max-[540px]:col-start-1"}>{project.detail[locale]}</p>}
+        <p className={featured ? "description" : "description col-start-2 max-[540px]:col-start-1"}>{project.description[locale]}</p>
+        {project.detail && <p className={featured ? "description-detail mt-[10px] mb-0 max-w-[640px]" : "description-detail col-start-2 mt-[10px] mb-0 max-w-[640px] max-[540px]:col-start-1"}>{project.detail[locale]}</p>}
         <div className={featured ? "pt-6" : "col-start-2 pt-1 max-[540px]:col-start-1"}>
           <div className="flex flex-wrap gap-[7px]" aria-label={locale === "pt" ? "Tecnologias" : "Technologies"}>{project.tech.map((tech) => <TechBadge name={tech} key={tech} />)}</div>
           <div className={`${featured ? "mt-[26px]" : "mt-3"} ${linksClass}`}>
@@ -119,7 +119,7 @@ export function ContactPanel({ locale }: { locale: Locale }) {
     <div className="grid grid-cols-[1fr_230px] overflow-hidden rounded-[24px] border border-line bg-surface-elevated max-[760px]:grid-cols-1">
       <div className="relative min-w-0 p-[clamp(28px,4vw,52px)] max-[540px]:p-[26px]">
         <span className="text-[34px] leading-none text-accent"><SignalMark /></span>
-        <p className="mt-[55px] mb-3 text-sm text-copy-secondary max-[760px]:mt-[35px]">{t.contact.message}</p>
+        <div className="mt-[55px] mb-3 max-[760px]:mt-[35px]"><p className="description">{t.contact.message}</p></div>
         <a className="inline-block max-w-full border-b-2 border-accent pb-2 text-[clamp(23px,3.4vw,47px)] font-semibold tracking-[-0.055em] [overflow-wrap:anywhere] hover:text-accent-hover max-[540px]:text-[clamp(19px,5.8vw,29px)]" href={`mailto:${site.email}`}>{site.email}</a>
         <EmailCopy locale={locale} />
       </div>

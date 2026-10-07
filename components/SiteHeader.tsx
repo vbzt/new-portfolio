@@ -2,34 +2,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { copy, site } from "@/lib/portfolio";
+import { copy, site, type Locale } from "@/lib/portfolio";
 import { ArrowUpRight } from "./Icons";
 import { useLanguage } from "./LanguageProvider";
 
-const navLink = "min-h-11 px-1 py-3 text-[13px] font-semibold lowercase text-copy-secondary transition-colors duration-180 hover:text-foreground aria-[current=page]:text-foreground aria-[current=page]:shadow-[inset_0_-2px_var(--accent)] max-[760px]:whitespace-nowrap max-[760px]:text-xs max-[540px]:px-px max-[540px]:text-[11px]";
+const navLink = "inline-flex min-h-11 items-center whitespace-nowrap px-1 text-[13px] font-semibold lowercase text-copy-secondary transition-colors duration-180 hover:text-foreground aria-[current=page]:text-foreground aria-[current=page]:shadow-[inset_0_-2px_var(--accent)] max-[760px]:text-xs max-[540px]:px-0";
+const locales: Locale[] = ["pt", "en"];
 
 export function SiteHeader() {
   const path = usePathname();
-  const { locale, toggleLocale } = useLanguage();
+  const { locale, setLocale } = useLanguage();
   const t = copy[locale];
-  const otherLocale = locale === "pt" ? "en" : "pt";
   const home = "/";
 
   return (
     <header className="sticky top-0 z-50 border-b border-line-soft bg-[rgba(11,11,13,0.96)] backdrop-blur-[14px]">
-      <div className="shell flex min-h-[68px] items-center justify-between gap-7 max-[1000px]:gap-[18px] max-[760px]:grid max-[760px]:min-h-0 max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-[10px] max-[760px]:py-[10px] max-[540px]:grid-cols-1 max-[540px]:gap-0">
-        <nav className="flex items-center gap-[clamp(8px,1.8vw,26px)] max-[1000px]:gap-3 max-[760px]:flex-wrap max-[760px]:gap-x-[10px] max-[760px]:gap-y-0 max-[540px]:justify-between max-[540px]:gap-x-[5px]" aria-label={locale === "pt" ? "Navegação principal" : "Main navigation"}>
+      <div className="shell flex min-h-[calc(var(--site-header-height)-1px)] items-center justify-between gap-7 max-[760px]:gap-3">
+        <nav className="flex shrink-0 items-center gap-6 max-[760px]:gap-4 max-[540px]:gap-3" aria-label={locale === "pt" ? "Navegação principal" : "Main navigation"}>
           <Link className={navLink} href={home} aria-current={path === home ? "page" : undefined}>{t.nav.home}</Link>
           <Link className={navLink} href="/projects" aria-current={path === "/projects" ? "page" : undefined}>{t.nav.projects}</Link>
-          <Link className={navLink} href={`${home}#capabilities`}>{t.nav.capabilities}</Link>
-          <Link className={navLink} href={`${home}#about`}>{t.nav.about}</Link>
-          <Link className={navLink} href={`${home}#contact`}>{t.nav.contact}</Link>
         </nav>
-        <div className="flex items-center gap-[15px] max-[760px]:justify-self-end max-[540px]:gap-[18px]">
-          <a className="inline-flex items-center gap-[5px] whitespace-nowrap text-[13px] font-semibold text-copy-secondary hover:text-foreground" href={site.resume} target="_blank" rel="noopener noreferrer">{t.nav.resume}<ArrowUpRight /></a>
-          <button className="inline-flex min-h-11 min-w-[46px] cursor-pointer items-center justify-center rounded-[10px] border border-control bg-transparent text-xs font-bold tracking-[0.05em] text-foreground transition-[border-color,background] duration-180 hover:border-accent hover:bg-accent-soft" type="button" onClick={toggleLocale} aria-label={`${t.nav.language}: ${otherLocale === "pt" ? "Português" : "English"}`}>
-            {otherLocale.toUpperCase()}
-          </button>
+        <div className="flex shrink-0 items-center gap-5 max-[760px]:gap-3">
+          <a className="inline-flex min-h-11 items-center gap-[5px] whitespace-nowrap text-[13px] font-semibold text-copy-secondary hover:text-foreground max-[760px]:text-xs" href={site.resume} target="_blank" rel="noopener noreferrer">{t.nav.resume}<ArrowUpRight /></a>
+          <div className="flex items-center gap-1 text-[13px] font-semibold max-[760px]:text-xs" role="group" aria-label={t.nav.language}>
+            {locales.map((value, index) => (
+              <span className="inline-flex items-center gap-1" key={value}>
+                {index > 0 && <span className="text-copy-secondary" aria-hidden="true">/</span>}
+                <button className="inline-flex min-h-11 min-w-6 cursor-pointer items-center justify-center px-1 text-copy-secondary underline-offset-[5px] transition-colors duration-180 hover:text-foreground hover:underline aria-pressed:text-foreground aria-pressed:underline" type="button" onClick={() => setLocale(value)} aria-label={value === "pt" ? "Português" : "English"} aria-pressed={locale === value}>
+                  {value}
+                </button>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </header>

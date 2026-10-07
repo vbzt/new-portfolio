@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useSyncExternalStore, type ReactNode } from "react";
 import { isLocale, type Locale } from "@/lib/portfolio";
 
-const LanguageContext = createContext<{ locale: Locale; toggleLocale: () => void } | null>(null);
+const LanguageContext = createContext<{ locale: Locale; setLocale: (locale: Locale) => void } | null>(null);
 const storageKey = "portfolio-language";
 const changeEvent = "portfolio-language-change";
 
@@ -32,13 +32,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = locale === "pt" ? "pt-BR" : "en";
   }, [locale]);
 
-  function toggleLocale() {
-    const next = locale === "pt" ? "en" : "pt";
+  function setLocale(next: Locale) {
+    if (next === locale) return;
     window.localStorage.setItem(storageKey, next);
     window.dispatchEvent(new Event(changeEvent));
   }
 
-  return <LanguageContext.Provider value={{ locale, toggleLocale }}>{children}</LanguageContext.Provider>;
+  return <LanguageContext.Provider value={{ locale, setLocale }}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage() {
